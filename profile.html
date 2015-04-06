@@ -1,0 +1,191 @@
+<?php 
+	session_start();
+?>
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link href='http://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="demo/profile/style.css"> 
+		
+		<title>LifeLens</title>
+	</head>
+
+	<body>
+
+		
+		<div class="head"><a href="http://lifelens.ca/cgi-bin/index.shtml"><img src="logo.png" width=200px /></a></div>
+		
+		<div class='sidebar'>
+			<div class='stuff'>
+				<img src="demo/sham3.jpg" width=180px /></br>
+				
+				<div class='sItem'>
+					Shamraiz</br></br></br></br>
+				</div>
+							
+				<div class='sItem'>
+					<form action="" method="get">
+						<input type="hidden" name="inputText" value="Ontario Science Centre"/>
+						<input type="submit" name="SubmitButton" value="OSC" id="submit"/>
+					</form> 
+				</div>
+			</div>
+		</div>
+		
+	
+		<div class="timeline">
+			<?php  
+				if (isset($_SESSION['numEvents']))
+				{
+					$_SESSION['numEvents']=0;
+					
+				}
+				else {
+					$_SESSION['numEvents'] = 0;
+				}
+				$x = 1;
+				//if(isset($_GET['SubmitButton'])){ //check if form was submitted
+				if( $x == 1 ){ //check if form was submitted
+					$test = $_SESSION['numEvents'];
+					$input = $_GET['inputText']; //get input text
+					for ($x = 0; $x <= $_SESSION['numEvents']; $x++) {
+						echo "<div class=\"timeline-item\" onclick=\"window.location = 'http://lifelens.ca/demo/index.html';\">";
+						echo "<div class=\"year\">Ontario Science Centre<span class=\"marker\"><span class=\"dot\"></span></span>";
+						//echo "<div class=\"year\">$input<span class=\"marker\"><span class=\"dot\"></span></span>";
+						//$contributorsNum = rand(0,3);
+						$contributorsNum = 2;
+						for ($x = 0; $x <= $contributorsNum; $x++) {
+							echo "<div class=\"cont\" style = \"background-image: url('profile.jpg')\"></div>";
+						}
+						echo "</div>";
+						echo "<div class=\"info\">";
+						//$numImages = rand(0,7);
+						//$numImages = 3;
+						echo "<div id=\"makeMeScrollable\">";
+						/*for ($x = 0; $x <= $numImages; $x++) {
+							//$imageId = rand(0,3);
+							$imageId = $x;
+							//echo "<div class=\"test\"><img src=\"users/julian/Event 1/$imageId.jpg\" width=200px /></div>";
+							echo "<img src=\"users/julian/Event 1/$imageId.jpg\"/>";
+							
+						}*/
+						$dir = "demo/Ontario Science Centre/shamraiz/";
+						$images = glob( $dir . "*.jpg" );
+						$items = array();
+						foreach($images as $image){
+							$exif_data = exif_read_data ($image);
+							if (!empty($exif_data['DateTimeOriginal'])) {
+								$exif_date = $exif_data['DateTimeOriginal'];
+							}
+							
+						    $item = new stdClass;
+							$item->time = strtotime($exif_date);
+							$item->image = $image;
+							$items[] = $item;
+						}
+						
+						function sortCallback($a,$b){
+							if ($a->time > $b->time) return 1;
+							else if ($a->time < $b->time) return -1;
+							else return 0;
+						}
+
+						usort($items, "sortCallback");
+						
+						foreach($items as $item) {
+							echo '<img src= "'.$item->image.'"/>';
+						}
+						echo "</div>";
+						echo "</div></div>";	
+					}
+				}    			
+			?>
+			<div class="timeline-item" onclick="window.location = 'http://lifelens.ca/demo/demo.html'">
+				<div class="year">Zoo<span class="marker"><span class="dot"></span></span>
+						<div class="cont" style = 'background-image: url(profile.jpg)'></div>
+				</div>
+				<div class="info">
+					<div id="makeMeScrollable">
+						<img src="users/s11/Test/3.jpg"/>
+						<img src="users/s11/Test/2.jpg"/>
+						<img src="users/s11/Test/1.jpg"/>
+						<img src="users/s11/Test/0.jpg"/>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="timeline-item" onclick="window.location = 'http://lifelens.ca/demo/demo.html'">
+				
+				<div class="year">Forest<span class="marker"><span class="dot"></span></span>
+					<div class="cont" style = 'background-image: url(profile.jpg)'></div>
+				</div>
+				<div class="info">
+					<div id="makeMeScrollable">
+						<img src="users/s11/Test/2.jpg"/>
+						<img src="users/s11/Test/3.jpg"/>
+						<img src="users/s11/Test/0.jpg"/>
+						<img src="users/s11/Test/1.jpg"/>
+					</div>
+				</div>
+
+			</div>
+			<div class="timeline-item" onclick="window.location = 'http://lifelens.ca/demo/demo.html'">
+				<div class="year">Jungle<span class="marker"><span class="dot"></span></span>
+					<div class="cont" style = 'background-image: url(profile.jpg)'></div>
+				</div>
+				<div class="info">
+					<div id="makeMeScrollable">
+						<img src="users/s11/Test/1.jpg"/>
+						<img src="users/s11/Test/2.jpg"/>
+						<img src="users/s11/Test/3.jpg"/>
+						<img src="users/s11/Test/0.jpg"/>
+					</div>
+				</div>
+			</div>
+
+			
+		</div>
+		
+
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="demo/profile/profile.js"></script>
+
+
+		<!-- jQuery UI (Custom Download containing only Widget and Effects Core)
+			 You can make your own at: http://jqueryui.com/download  -->
+		<script src="demo/profile/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> 
+		
+		<!-- Latest version (3.1.4) of jQuery Mouse Wheel by Brandon Aaron
+			 You will find it here: https://github.com/brandonaaron/jquery-mousewheel -->
+		<script src="demo/profile/js/jquery.mousewheel.min.js" type="text/javascript"></script>
+
+		<!-- jQuery Kinectic (1.8.2) used for touch scrolling -->
+		<!-- https://github.com/davetayls/jquery.kinetic/ -->
+		<script src="demo/profile/js/jquery.kinetic.min.js" type="text/javascript"></script>
+
+		<!-- Smooth Div Scroll 1.3 minified-->
+		<script src="demo/profile/js/jquery.smoothdivscroll-1.3-min.js" type="text/javascript"></script>
+
+		<!-- If you want to look at the uncompressed version you find it at
+			 js/jquery.smoothDivScroll-1.3.js -->
+
+		<!-- Plugin initialization -->
+		<script type="text/javascript">
+			// Initialize the plugin with no custom options
+			$(document).ready(function () {
+				// None of the options are set
+				$("div#makeMeScrollable").smoothDivScroll({
+					manualContinuousScrolling: true,
+					//mousewheelScrolling: "allDirections",
+					touchScrolling: true
+					//autoScrollingMode: "onStart"
+				});
+			});
+		</script>
+	
+	</body>
+</html>

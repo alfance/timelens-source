@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html><head>
+<!-- inside events folder -->
+<link href="css/uploadfile.css" rel="stylesheet">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="js/jquery.uploadfile.min.js"></script>
+<!-- root index.html  --->
+<!-- meta http-equiv="refresh" content="0; url=http://lifelens.ca/cgi-bin/" / -->
+<link href='http://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="demo/css/style.css"> 
+
+<title>LifeLens</title></head>
+<body>
+<center>
+<br/><br/>
+<br/>
+<br/><br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/><br/>
+<br/>
+
+<a href="http://lifelens.ca/profile.html"><img src="../logo.png" /></a>
+
+<br />
+<br />
+
+<?php
+	//$username = $_GET['username'];
+	$eventname = $_POST['eventname'];
+	echo "<h2>$eventname<br/></h2>";
+	//echo " <button type=\"button\">Check Event</button> ";
+	if (!file_exists("uploads/$eventname")) {
+		mkdir("uploads/$eventname", 0777, true);
+	}
+?>
+<br>
+<div id="fileuploader">Upload</div>
+<?php
+//echo "<h2><form action=\"profile.html\" method=\"get\">";
+//echo "<input type=\"hidden\" name=\"inputText\" value=\"$eventname\"/>";
+//echo "<input type=\"submit\" name=\"SubmitButton\" value=\"Check Profile\" id=\"submit\"/>";
+//echo "</form></h2>"; 
+echo "<h2><a href=\"http://lifelens.ca/events/profile.html\">";
+echo "<input type=\"button\" value=\"Visit Profile\" />";
+echo "</a></h2>";
+?>
+<script>
+$(document).ready(function()
+{
+	$("#fileuploader").uploadFile({
+	url:"<?php echo "upload.php?test=$eventname" ?>",
+	//uploadFolder: "<?php echo "uploads/$eventname"; ?>",
+	fileName:"myfile"
+	});
+	
+
+});
+</script>
+</center>
+</body>
+</html>
+
